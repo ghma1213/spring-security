@@ -40,7 +40,7 @@ public class IndexController {
         return "manager";
     }
 
-    // 설정 안하면 스프링 시큐리티가 해당 주소를 낚아챈다.
+    // 시큐리티 설정 안하면 스프링 시큐리티가 해당 주소를 낚아챈다.
     @GetMapping("/loginForm")
     public String loginForm() {
         return "loginForm";
