@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // 이유는 JpaRepository를 상속했기 때문에.
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+    User findByUsername(String username);
+
 }
