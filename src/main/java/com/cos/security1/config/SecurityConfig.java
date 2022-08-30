@@ -1,6 +1,6 @@
 package com.cos.security1.config;
 
-import com.cos.security1.auth.PrincipalOauth2UserService;
+import com.cos.security1.config.oauth.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
