@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화, preAuthorize 어노테이션 활성화
 public class SecurityConfig {
 
-    @Lazy
+    @Lazy // 순환참조 오류 방지
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
 
