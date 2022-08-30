@@ -25,6 +25,7 @@ public class IndexController {
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    // 이렇게 할 필요가 없다.
     @GetMapping("/test/login")
     @ResponseBody
     public String testLogin(Authentication authentication
@@ -36,6 +37,7 @@ public class IndexController {
         return "세션 정보 확인하기";
     }
 
+    // 이렇게 할 필요가 없다.
     @GetMapping("/test/oauth/login")
     @ResponseBody
     public String testOAuthLogin(Authentication authentication
@@ -48,7 +50,7 @@ public class IndexController {
 
     // 세션 안에 스프링 시큐리티는 자기만의 시큐리티 세션이 있다.
     // 시큐리티 세션 안에 들어갈 수 있는 객체는 Authentication 타입만 가능
-    // Authentication 타입에는 2가지만 가능 (UserDetails(일반 로그인), OAuth2User(OAuth 로그인)) => PricipalDetails로 둘 다 받아서 사용
+    // Authentication 타입에는 2가지만 가능 (UserDetails(일반 로그인), OAuth2User(OAuth 로그인)) => PrincipalDetails 로 둘 다 받아서 사용
 
     // localhost:8080/
     // localhost:8080
@@ -59,9 +61,12 @@ public class IndexController {
         return "index";
     }
 
+    // Oauth 로그인을 해도 PrincipalDetails
+    // 일반 로그인을 해도 PrincipalDetails
     @GetMapping("/user")
     @ResponseBody
-    public String user() {
+    public String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails.getUser().toString() = " + principalDetails.getUser().toString());
         return "user";
     }
 
