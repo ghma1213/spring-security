@@ -1,5 +1,7 @@
 package com.cos.security1.config;
 
+import com.cos.security1.auth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,12 +15,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화, preAuthorize 어노테이션 활성화
 public class SecurityConfig {
 
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
+
     // 해당 메소드의 리턴되는 오브젝트를 IoC로 등록해준다.
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
+
+    // 구글 로그인이 완료된 뒤의 후처리가 필요함.
+    // 1. 코드받기(인증됨)
+    // 2. 엑세스토큰(권한)
+    // 3. 사용자 프로필 정보 가져오기
+    // 4-1. 프로필 정보 토대로 회원가입을 자동으로 진행시키기도 한다.
+    // 4-2.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -34,7 +46,9 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()
-                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요함.
+                .loginPage("/loginForm")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService)
         ;
         return http.build();
     }
